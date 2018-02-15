@@ -1,0 +1,60 @@
+<div class="row" ng-controller="itemsController as itemsCtrl">
+<div class="col-12 col-lg-7">
+    <div class="items-div">
+        <div class="form-group">
+            <div class="col-12 without-line">
+                <h1 class="col-12">Items</h1>
+            </div>
+            <!-- Add new item form-->
+            <div class="col-12 without-line">
+                <div class="col-9 item">
+                    <input placeholder="Type name here..." ng-init="newItem" type="text" class="form-control" ng-model="newItem" max="30">
+                </div>
+                <div class="col-2 item">
+                    <button class="btn btn-info b-green" type="button" ng-click="itemsCtrl.addNew(newItem);newItem='';" ng-disabled="!newItem.length">Add new</button>
+                </div>
+            </div>
+        </div>
+        <!-- Items list-->
+        <div class="items">
+            <div class="form-group" ng-repeat="item in itemsCtrl.items track by $index" ng-class=" item===itemsCtrl.selectedItem ? 'selected':'unselected'"
+                ng-click="itemsCtrl.selectedItem=item">
+                <div class="col-12 line ">
+                    <div class="col-9 item ">
+                        <label class="label item-name " ng-bind="item.text"></label>
+                        <span class="badge badge-info b-green" ng-bind="item.comments.length"></span>
+                    </div>
+                    <div class="col-2 item ">
+                        <button type="button" class="btn btn-outline-danger" ng-click="itemsCtrl.deleteItem(item)">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-12 col-lg-5">
+    <div ng-if="itemsCtrl.items.indexOf(itemsCtrl.selectedItem)>=0" class="comments-div">
+        <h1 class="col-12 " ng-bind="'Comments #'+(itemsCtrl.items.indexOf(itemsCtrl.selectedItem)+1)"></h1>
+        <!-- Comments of selected item -->
+        <div class="comments">
+            <div class="row col-12 comment" ng-repeat="comment in itemsCtrl.selectedItem.comments track by $index">
+                <div class="col-2">
+                    <span class="ava-icon" ng-class="'ava-'+itemsCtrl.selectedItem.comments.indexOf(comment)%2"></span>
+                </div>
+                <div class="col-10">
+                    <span ng-bind="comment.text"></span>
+                </div>
+            </div>
+        </div>
+        <!-- Add new comment form-->
+        <div class="new-comment" ng-if="itemsCtrl.selectedItem.text">
+            <div class="col-2">
+                <span class="ava-icon "></span>
+            </div>
+            <div class="col-10">
+                <textarea ng-model="newComment" class="form-control" title="Ctrl+Enter Add Comment" key-submit="itemsCtrl.addComment(newComment);newComment=''"></textarea>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
